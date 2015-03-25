@@ -64,9 +64,6 @@ describe('clientStorage.get and check overwrite', function () {
 
     it('Get overwritten record', function () {
         var db = new ClientStorage(NAMESPACE);
-db.get('president2').then(function(obj) {
-    console.warn(obj);
-});
         return db.get('president2').should.become({name: 'John F.', lastName: 'Kennedy another', 'birth': 1917});
     });
 
@@ -175,6 +172,7 @@ describe('Other methods', function () {
             return (record.birth===1917);
         }).finally(function(record) {
             expect(years).to.be.equal(3878);
+            expect(record).to.be.eql({name: 'John F.', lastName: 'Kennedy', 'birth': 1917});
             done();
         }).catch(function(err) {
             done(err);
@@ -198,7 +196,7 @@ describe('Other methods', function () {
 
     it('contains when false', function () {
         var db = new ClientStorage(NAMESPACE);
-        return db.has({name: 'Bill', lastName: 'Clinton', 'birth': 1900}).should.become(false);
+        return db.contains({name: 'Bill', lastName: 'Clinton', 'birth': 1900}).should.become(false);
     });
 
     it('size', function () {

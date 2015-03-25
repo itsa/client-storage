@@ -40,7 +40,13 @@
             var wrapperFn = function(item) {
                 return fn.call(this, item.v);
             };
-            return this.db.some(TABLE_NAME, wrapperFn, context);
+            return this.db.some(TABLE_NAME, wrapperFn, context).then(
+                function(record) {
+                    if (record) {
+                        return record.v;
+                    }
+                }
+            );
         },
         clear: function() {
             return this.db.clear(TABLE_NAME);
